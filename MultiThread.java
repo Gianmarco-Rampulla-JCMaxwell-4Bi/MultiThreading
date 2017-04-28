@@ -12,7 +12,7 @@ package multithread;
 import java.util.concurrent.TimeUnit;
 /**
  *
- * @author Matteo Palitto
+ * @author Matteo Palitto, Gianmarco Rampulla
  */
 public class MultiThread {
 
@@ -24,24 +24,18 @@ public class MultiThread {
     public static void main(String[] args) {
         System.out.println("Main Thread iniziata...");
         long start = System.currentTimeMillis();
-        
-        // Posso creare un THREAD e avviarlo immediatamente
-        Thread tic = new Thread (new TicTac("TIC"));
+      
+        // Creo i THREAD
+        Thread tic = new Thread (new TicTacToe("TIC"));
+	    Thread tac = new Thread(new TicTacToe("TAC"));
+       
+	
+	    // faccio partire i thread
         tic.start();
+	    tac.start();
+	  
         
-        // Posso creare un 2ndo THREAD e farlo iniziare qualche tempo dopo...
-        Thread tac = new Thread(new TicTac("TAC"));
         
-        try {
-            TimeUnit.MILLISECONDS.sleep(1111);
-            tac.start();  // avvio del secondo THREAD
-        } catch (InterruptedException e) {}
-        
-        try {
-            TimeUnit.MILLISECONDS.sleep(1234);
-        } catch (InterruptedException e) {}
-        tac.interrupt(); // stop 2nd THREAD
-
         
         long end = System.currentTimeMillis();
         System.out.println("Main Thread completata! tempo di esecuzione: " + (end - start) + "ms");
