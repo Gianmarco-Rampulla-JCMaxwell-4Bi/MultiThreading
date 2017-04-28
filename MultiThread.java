@@ -54,6 +54,7 @@ public class MultiThread {
             System.out.println("Thread Interrotti!"); //se vengono interrotti (non fiscono il lavoro) viene scritto
         }
         
+	 System.out.println("Punteggio: " + punteggio); //stampa il punteggio   
         
         
         long end = System.currentTimeMillis();
