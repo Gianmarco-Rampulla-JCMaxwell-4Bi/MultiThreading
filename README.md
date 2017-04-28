@@ -21,4 +21,8 @@ Si può modificare ad esempio il tempo random nel codice (contenuto nel run dell
 
 Il tempo viene espresso in millisecondi, quindi 1 secondo sarà 1000 millisecondi.
 
-si possono inoltre aggiungere altri thread al main per farli eseguire semplicemente dichiarando una nuova istanza della classe TicTacToe
+si possono inoltre aggiungere altri thread al main per farli eseguire semplicemente dichiarando una nuova istanza della classe TicTacToe nel main all'interno della classe Multithread
+
+Il costruttore TicTacToe richiede solo, come parametro, il nome da stampare al momento dell'output del numero
+
+Esempio: TicTacToe ThreadGitHub = new TicTacToe("nomeThread");
