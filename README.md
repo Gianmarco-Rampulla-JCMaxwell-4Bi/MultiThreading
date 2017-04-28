@@ -1,8 +1,9 @@
 # TicTacToe
 
 TicTacToe è un programma basato sul concetto dei threads.
-è composto da 3 threads (TIC,TAC,TOE) che vengono fatti partire contemporaneamente per stampare numeri in concorrenza attendendo un tempo casuale ad ogni numero avendo cosi risultati diversi ad ogni run del programma.
-Alla fine viene stampato un punteggio che è il conteggio di quante volte è uscito TOE dopo di TAC, il punteggio viene stampato, però, quando tutti i thread hanno concluso l'esecuzione.
+è composto da 3 threads (TIC,TAC,TOE) che vengono fatti partire contemporaneamente per stampare numeri (countdown partendo da 10) in concorrenza attendendo un tempo casuale da 100 e 300 millisecondi ad ogni numero avendo cosi risultati diversi ad ogni run del programma.
+Alla fine viene stampato un punteggio che rappresenta il conteggio di quante volte è uscito TOE dopo di TAC. 
+il punteggio viene stampato, però, quando tutti i thread hanno concluso l'esecuzione.
 
 # Istruzioni per testare il programma
  - Scaricare il progetto da GitHub,
