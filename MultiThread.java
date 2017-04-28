@@ -76,7 +76,7 @@ class TicTacToe implements Runnable {
     private String msg;
 
     // Costruttore, possiamo usare il costruttore per passare dei parametri al THREAD
-    public TicTac (String s) {
+    public TicTacToe (String s) {
         this.t = s;
     }
     
