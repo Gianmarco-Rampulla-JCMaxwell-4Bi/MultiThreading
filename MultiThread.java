@@ -10,6 +10,9 @@
 package multithread;
 
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.Random;
 /**
  *
  * @author Matteo Palitto, Gianmarco Rampulla
@@ -80,12 +83,15 @@ class TicTacToe implements Runnable {
     // se facessimo un overloading invece di un override il copilatore ci segnalerebbe l'errore
     // per approfondimenti http://lancill.blogspot.it/2012/11/annotations-override.html
     public void run() {
+	   
+	Random RandomTime = new Random(); //genero tempo casuale    
+	    
         for (int i = 10; i > 0; i--) {
             msg = "<" + t + "> ";
             //System.out.print(msg);
             
             try {
-                TimeUnit.MILLISECONDS.sleep(400);
+                TimeUnit.MILLISECONDS.sleep(RandomTime.nextInt(300) + 100); //aspetta tempo casuale
             } catch (InterruptedException e) {
                 System.out.println("THREAD " + t + " e' stata interrotta! bye bye...");
                 return; //me ne vado = termino il THREAD
