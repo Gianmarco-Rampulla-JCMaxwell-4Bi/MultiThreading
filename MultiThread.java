@@ -27,13 +27,14 @@ public class MultiThread {
       
         // Creo i THREAD
         Thread tic = new Thread (new TicTacToe("TIC"));
-	    Thread tac = new Thread(new TicTacToe("TAC"));
-       
+	Thread tac = new Thread(new TicTacToe("TAC"));
+       	Thread toe = new Thread(new TicTacToe("TOE"));
 	
-	    // faccio partire i thread
+	
+	// faccio partire i thread
         tic.start();
-	    tac.start();
-	  
+	tac.start();
+	toe.start();  
         
         
         
