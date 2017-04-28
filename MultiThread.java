@@ -85,14 +85,14 @@ class TicTacToe implements Runnable {
     // per approfondimenti http://lancill.blogspot.it/2012/11/annotations-override.html
     public void run() {
 	   
-	Random RandomTime = new Random(); //genero tempo casuale    
+	long  RandomTime = (long) ((long) 100 + (Math.random() * 200)); //genero tempo casuale
 	    
         for (int i = 10; i > 0; i--) {
             msg = "<" + t + "> ";
             //System.out.print(msg);
             
             try {
-                TimeUnit.MILLISECONDS.sleep(RandomTime.nextInt(300) + 100); //aspetta tempo casuale
+                TimeUnit.MILLISECONDS.sleep(RandomTime); //aspetta tempo casuale
             } catch (InterruptedException e) {
                 System.out.println("THREAD " + t + " e' stata interrotta! bye bye...");
                 return; //me ne vado = termino il THREAD
