@@ -36,6 +36,19 @@ public class MultiThread {
 	tac.start();
 	toe.start();  
         
+	try {
+	    //aspetta la fine di ogni thread per continuare con l'esecuzione di quello principale		
+            tic.join();
+            tac.join();
+            toe.join();
+            
+	     //stampa il messaggio solo se terminano
+             System.out.println("Thread Terminati!");
+                     
+        } catch (InterruptedException ex) {
+            System.out.println("Thread Interrotti!"); //se vengono interrotti (non fiscono il lavoro) viene scritto
+        }
+        
         
         
         long end = System.currentTimeMillis();
