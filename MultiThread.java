@@ -21,6 +21,10 @@ public class MultiThread {
      */
     // "main" e' il THREAD principale da cui vengono creati e avviati tutti gli altri THREADs
     // i vari THREADs poi evolvono indipendentemente dal "main" che puo' eventualmente terminare prima degli altri
+    
+    //dichiaro variabile statica per il punteggio	
+    public static int punteggio = 0;
+	
     public static void main(String[] args) {
         System.out.println("Main Thread iniziata...");
         long start = System.currentTimeMillis();
