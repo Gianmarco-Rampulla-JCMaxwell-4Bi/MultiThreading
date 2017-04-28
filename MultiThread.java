@@ -51,7 +51,7 @@ public class MultiThread {
              System.out.println("Thread Terminati!");
                      
         } catch (InterruptedException ex) {
-            System.out.println("Thread Interrotti!"); //se vengono interrotti (non fiscono il lavoro) viene scritto
+            System.out.println("Thread Interrotto!"); //se il thread da cui si e' invocata la proc join viene interrotto viene scritto
         }
         
 	 System.out.println("Punteggio: " + punteggio); //stampa il punteggio   
