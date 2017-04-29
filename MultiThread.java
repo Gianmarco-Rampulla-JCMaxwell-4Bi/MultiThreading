@@ -10,9 +10,10 @@
 package multithread;
 
 import java.util.concurrent.TimeUnit;
+import java.util.Random;
 /**
  *
- * @author Matteo Palitto
+ * @author Matteo Palitto, Gianmarco Rampulla
  */
 public class MultiThread {
 
@@ -21,27 +22,40 @@ public class MultiThread {
      */
     // "main" e' il THREAD principale da cui vengono creati e avviati tutti gli altri THREADs
     // i vari THREADs poi evolvono indipendentemente dal "main" che puo' eventualmente terminare prima degli altri
+    
+    //dichiaro variabile statica per il punteggio	
+    public static int punteggio = 0;
+	
     public static void main(String[] args) {
         System.out.println("Main Thread iniziata...");
         long start = System.currentTimeMillis();
-        
-        // Posso creare un THREAD e avviarlo immediatamente
-        Thread tic = new Thread (new TicTac("TIC"));
+      
+        // Creo i THREAD
+        Thread tic = new Thread (new TicTacToe("TIC"));
+	Thread tac = new Thread(new TicTacToe("TAC"));
+       	Thread toe = new Thread(new TicTacToe("TOE"));
+	
+	
+	// faccio partire i thread
         tic.start();
+	tac.start();
+	toe.start();  
         
-        // Posso creare un 2ndo THREAD e farlo iniziare qualche tempo dopo...
-        Thread tac = new Thread(new TicTac("TAC"));
+	try {
+	    //aspetta la fine di ogni thread per continuare con l'esecuzione di quello principale		
+            tic.join();
+            tac.join();
+            toe.join();
+            
+	     //stampa il messaggio solo se terminano
+             System.out.println("Thread Terminati!");
+                     
+        } catch (InterruptedException ex) {
+            System.out.println("Thread Interrotto!"); //se il thread da cui si e' invocata la proc join viene interrotto viene scritto
+        }
         
-        try {
-            TimeUnit.MILLISECONDS.sleep(1111);
-            tac.start();  // avvio del secondo THREAD
-        } catch (InterruptedException e) {}
+	 System.out.println("Punteggio: " + punteggio); //stampa il punteggio   
         
-        try {
-            TimeUnit.MILLISECONDS.sleep(1234);
-        } catch (InterruptedException e) {}
-        tac.interrupt(); // stop 2nd THREAD
-
         
         long end = System.currentTimeMillis();
         System.out.println("Main Thread completata! tempo di esecuzione: " + (end - start) + "ms");
@@ -53,14 +67,16 @@ public class MultiThread {
 // +1 si puo estendere da un altra classe
 // +1 si possono passare parametri (usando il Costruttore)
 // +1 si puo' controllare quando un THREAD inizia indipendentemente da quando e' stato creato
-class TicTac implements Runnable {
+class TicTacToe implements Runnable {
     
+     private static boolean isTacAlreadyHere = false; //variabile per capire se il thread precedente e di tipo TAC		
+	
     // non essesndo "static" c'e' una copia delle seguenti variabili per ogni THREAD 
     private String t;
     private String msg;
 
     // Costruttore, possiamo usare il costruttore per passare dei parametri al THREAD
-    public TicTac (String s) {
+    public TicTacToe (String s) {
         this.t = s;
     }
     
@@ -68,16 +84,40 @@ class TicTac implements Runnable {
     // se facessimo un overloading invece di un override il copilatore ci segnalerebbe l'errore
     // per approfondimenti http://lancill.blogspot.it/2012/11/annotations-override.html
     public void run() {
+	   
+	long  RandomTime = (long) ((long) 100 + (Math.random() * 200)); //genero tempo casuale
+	    
         for (int i = 10; i > 0; i--) {
             msg = "<" + t + "> ";
             //System.out.print(msg);
             
             try {
-                TimeUnit.MILLISECONDS.sleep(400);
+                TimeUnit.MILLISECONDS.sleep(RandomTime); //aspetta tempo casuale
             } catch (InterruptedException e) {
                 System.out.println("THREAD " + t + " e' stata interrotta! bye bye...");
                 return; //me ne vado = termino il THREAD
             }
+		
+		//parte di codice per aggiornare il punteggio quando dopo il tac appare toc
+		switch(t) //controllo il nome
+            	{
+                	case "TAC": //se e' TAC
+                 		isTacAlreadyHere = true; //imposto a true var isTacAlreadyHere
+                    		break; //fine
+                	case "TOE": //se e' TOE
+                    		if(isTacAlreadyHere == true) //se il thread precedente era di tipo TAC
+                    		{
+                         		isTacAlreadyHere = false; //azzera la var
+                         		MultiThread.punteggio += 1; //aggiorna punteggio
+                        
+                    		}
+                    		break; //fine
+                	case "TIC": //Se e' TIC
+                     		isTacAlreadyHere = false; //azzera variabile
+                     		break;//fine
+            	}
+                
+		
             msg += t + ": " + i;
             System.out.println(msg);
          
