@@ -35,4 +35,4 @@ Il costruttore TicTacToe richiede solo, **come parametro**, il nome da stampare 
 
 # Ringraziamenti
 
-Al prof per il codice iniziale
+- Al prof per il codice iniziale
