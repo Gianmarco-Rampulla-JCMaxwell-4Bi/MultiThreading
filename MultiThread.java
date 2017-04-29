@@ -10,7 +10,6 @@
 package multithread;
 
 import java.util.concurrent.TimeUnit;
-import java.util.Random;
 /**
  *
  * @author Matteo Palitto, Gianmarco Rampulla
@@ -69,7 +68,7 @@ public class MultiThread {
 // +1 si puo' controllare quando un THREAD inizia indipendentemente da quando e' stato creato
 class TicTacToe implements Runnable {
     
-     private static boolean isTacAlreadyHere = false; //variabile per capire se il thread precedente e di tipo TAC		
+     private static boolean isTacAlreadyHere = false; //variabile per capire se il thread precedente e di tipo TAC, è static quindi è una variabile singola per l'intera classe		
 	
     // non essesndo "static" c'e' una copia delle seguenti variabili per ogni THREAD 
     private String t;
