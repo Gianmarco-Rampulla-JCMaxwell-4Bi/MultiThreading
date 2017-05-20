@@ -29,6 +29,18 @@ Il costruttore TicTacToe richiede solo, **come parametro**, il nome da stampare 
 
 **Esempio:** TicTacToe ThreadGitHub = new TicTacToe("nomeThread");
 
+# Istruzioni per la corretta modifica e la risoluzione dei problemi di condivisione delle variabili tra threads
+
+Per evitare **il conflitto tra i thread e la possibile sovrascrittura dei dati**, è stato inserita **una classe (MonitoredOperations) che ha lo scopo di invocare un metodo sincronizzato per fare in modo che i thread accedano in modo sequenziale e non contemporaneamente alle risorse** per la determinazione del punteggio.
+Adesso oltre al nome, il **costruttore di TicTacToe** richiede anche un **istanza di una classe monitor (in questo caso MonitoredOperations)** per fare in modo di non avere conflitti
+
+**Esempio:** TicTacToe ThreadGitHub = new TicTacToe("nomeThread", "Istanza di una classe monitor");
+
+Nel caso si necessiti di **integrare dei nuovi dati** che i threads dovranno utilizzare **è consigliabile mettere quest'ultime nella classe monitor (MonitoredOperations)** per fare in modo che il sistema di regolamentazione dei threads continui a funzionare correttamente.
+
+**Stessa prudenza** per quanto i riguarda **i metodi**: è **consigliabile** quando si ha la necessità di **condividere una o più variabili tra i threads**, per evitare problemi nella gestione delle variabili, di **far eseguire a quest'ultimi solo metodi synchronized**. 
+
+
 # Autore
 
 - Gianmarco Rampulla
