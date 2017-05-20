@@ -26,19 +26,22 @@ public class MultiThread {
     public static int punteggio = 0;
 	
     public static void main(String[] args) {
-        System.out.println("Main Thread iniziata...");
-        long start = System.currentTimeMillis();
+       
+	MonitoredOperations Mon = new MonitoredOperations(); //istanzia un oggetto della classe monitor per la gestione degli accessi dei thread alle risorse condivise e per passarlo poi al costruttore, in quanto per regolare gli accessi tutti i thread creati devono essere gestiti dallo stesso oggetto monitor           
+        System.out.println("Main Thread iniziata..."); //stampo messaggio
+        long start = System.currentTimeMillis(); //ottengo i millisecondi correnti
       
-        // Creo i THREAD
-        Thread tic = new Thread (new TicTacToe("TIC"));
-	Thread tac = new Thread(new TicTacToe("TAC"));
-       	Thread toe = new Thread(new TicTacToe("TOE"));
+        // Creo i THREAD e passo sia il nome che il riferimento al Monitor per evitare che eseguano tutti insieme la procedura di countdown
+        Thread tic = new Thread (new TicTacToe("TIC", Mon));
+        tic.start(); // faccio partire il thread
+	Thread tac = new Thread(new TicTacToe("TAC", Mon));
+	tac.start();    // faccio partire il thread
+       	Thread toe = new Thread(new TicTacToe("TOE", Mon));
+	toe.start();  // faccio partire il thread
 	
 	
-	// faccio partire i thread
-        tic.start();
-	tac.start();
-	toe.start();  
+	
+        
         
 	try {
 	    //aspetta la fine di ogni thread per continuare con l'esecuzione di quello principale		
@@ -53,11 +56,11 @@ public class MultiThread {
             System.out.println("Thread Interrotto!"); //se il thread da cui si e' invocata la proc join viene interrotto viene scritto
         }
         
-	 System.out.println("Punteggio: " + punteggio); //stampa il punteggio   
+	 System.out.println("Punteggio: " + Mon.getPoints()); //stampa il punteggio   
         
         
-        long end = System.currentTimeMillis();
-        System.out.println("Main Thread completata! tempo di esecuzione: " + (end - start) + "ms");
+        long end = System.currentTimeMillis(); //ottengo i millisecondi correnti
+        System.out.println("Main Thread completata! tempo di esecuzione: " + (end - start) + "ms"); //stampo quanto tempo ci è voluto per eseguire il programma
     }
     
 }
