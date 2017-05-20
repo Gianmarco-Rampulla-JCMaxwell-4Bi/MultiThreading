@@ -124,3 +124,57 @@ class TicTacToe implements Runnable {
     }
     
 }
+
+class MonitoredOperations{
+    
+    
+    private boolean isTacAlreadyHere = false; //variabile per capire se il thread precedente è di tipo TAC	
+  
+    private int punteggio = 0; //variabile per il punteggio 
+    
+  
+
+
+    public int getPoints() //ritorna il punteggio, prima era gestito da una variabile statica, ma adesso con synchronized lo si mette come attributo della classe che verrà modificato dai thread in modo sequenziale e non contemporaneamente (in quanto causa di conflitti)
+    {
+        return punteggio; //ritorno il valore della variabile sopra
+    }
+    
+    public synchronized void CountDown(String msg, String t) //metodo che solo un thread alla volta può eseguire
+    {
+         long  RandomTime = (long) ((long) 100 + (Math.random() * 300)); //genero tempo casuale da 100 a 300
+           
+		
+		//parte di codice per aggiornare il punteggio quando dopo il tac appare toc
+		switch(t) //controllo il nome
+            	{
+                	case "TAC": //se è TAC
+                 		isTacAlreadyHere = true; //imposto a true var isTacAlreadyHere
+                    		break; //fine
+                	case "TOE": //se è TOE
+                    		if(isTacAlreadyHere == true) //se il thread precedente era di tipo TAC
+                    		{
+                         		isTacAlreadyHere = false; //azzera la var
+                         		punteggio += 1; //aggiorna punteggio
+                                        msg += " Punteggio +1"; //aggiungo stringa per segnalare l'aumento del punteggio
+                        
+                    		}
+                    		break; //fine
+                	case "TIC": //Se è TIC
+                     		isTacAlreadyHere = false; //azzera variabile
+                     		break;//fine
+            	}
+                
+                     try {
+                TimeUnit.MILLISECONDS.sleep(RandomTime); //aspetta tempo casuale
+            } catch (InterruptedException e) {
+                System.out.println("THREAD " + t + " e' stata interrotta! bye bye...");
+                return; //me ne vado = termino il THREAD
+            }
+        
+            System.out.println(msg); //stampa il numero
+		
+         
+        
+    }
+}
