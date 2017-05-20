@@ -68,15 +68,17 @@ public class MultiThread {
 // +1 si puo' controllare quando un THREAD inizia indipendentemente da quando e' stato creato
 class TicTacToe implements Runnable {
     
-     private static boolean isTacAlreadyHere = false; //variabile per capire se il thread precedente e di tipo TAC, è static quindi è una variabile singola per l'intera classe		
+      
+      private  MonitoredOperations op; //variabile della classe Monitor per gestire l'accesso ai thread	al metodo per il countdown	
 	
-    // non essesndo "static" c'e' una copia delle seguenti variabili per ogni THREAD 
+    // non essendo "static" c'e' una copia delle seguenti variabili per ogni THREAD 
     private String t;
     private String msg;
 
     // Costruttore, possiamo usare il costruttore per passare dei parametri al THREAD
-    public TicTacToe (String s) {
+    public TicTacToe (String s, MonitoredOperations op2) { //passiamo il nome da stampare nel countdown e l'istanza del monitor in modo da controllare gli accessi del thread creato
         this.t = s;
+	this.op = op2;
     }
     
     @Override // Annotazione per il compilatore
@@ -84,42 +86,10 @@ class TicTacToe implements Runnable {
     // per approfondimenti http://lancill.blogspot.it/2012/11/annotations-override.html
     public void run() {
 	   
-	long  RandomTime = (long) ((long) 100 + (Math.random() * 300)); //genero tempo casuale
-	    
-        for (int i = 10; i > 0; i--) {
-            msg = "<" + t + "> ";
-            //System.out.print(msg);
+	 for (int i = 10; i > 0; i--) { //ciclo for per il countdown
+             msg = "<" + t + "> " + t + ":" + i; //creo il messaggio gia' qui in quanto se lo facessi nel metodo CountDown bloccherei l'accesso al metodo agli altri thread
+             op.CountDown(msg, t); //invoco il metodo sincronizzato nel thread corrente, se è libero esegue le operazioni se no aspetta il suo turno (assegnazione lock)
             
-            try {
-                TimeUnit.MILLISECONDS.sleep(RandomTime); //aspetta tempo casuale
-            } catch (InterruptedException e) {
-                System.out.println("THREAD " + t + " e' stata interrotta! bye bye...");
-                return; //me ne vado = termino il THREAD
-            }
-		
-		//parte di codice per aggiornare il punteggio quando dopo il tac appare toc
-		switch(t) //controllo il nome
-            	{
-                	case "TAC": //se e' TAC
-                 		isTacAlreadyHere = true; //imposto a true var isTacAlreadyHere
-                    		break; //fine
-                	case "TOE": //se e' TOE
-                    		if(isTacAlreadyHere == true) //se il thread precedente era di tipo TAC
-                    		{
-                         		isTacAlreadyHere = false; //azzera la var
-                         		MultiThread.punteggio += 1; //aggiorna punteggio
-                        
-                    		}
-                    		break; //fine
-                	case "TIC": //Se e' TIC
-                     		isTacAlreadyHere = false; //azzera variabile
-                     		break;//fine
-            	}
-                
-		
-            msg += t + ": " + i;
-            System.out.println(msg);
-         
         }
     }
     
